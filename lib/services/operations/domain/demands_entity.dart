@@ -5,18 +5,18 @@ class Demand extends Equatable {
   final String demandName;
   final String demandDate;
   final String address;
-  final double id;
-  final double tel;
+  final int id;
+  final int tel;
   final String email;
-  final double whatsNumber;
+  final int whatsNumber;
   final String areaName;
   final String demandTypeName;
   final String marafeqName;
   final String statusName;
-  final double areaId;
-  final double demandTypeId;
-  final double marafeqId;
-  final double statusId;
+  final int areaId;
+  final int demandTypeId;
+  final int marafeqId;
+  final int statusId;
 
   const Demand(
       {required this.demandName,

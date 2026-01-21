@@ -58,6 +58,8 @@ class DemandsModel extends Demand {
     }
     catch(e){
       //print(e);
+      print('from model $json');
+      print('from model $e');
       throw ClientException('ww');
     }
   }

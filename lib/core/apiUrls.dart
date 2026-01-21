@@ -1,5 +1,5 @@
 const String _testServer = 'http://10.150.144.177:8080/api';
-const String _localServer = 'http://localhost:8080/api';
+const String _localServer = 'http://10.150.144.171:8080/api';
 class ApiUrls{
   static const String login = '$_localServer/auth/login';
   static const String getDemands = '$_localServer/demands/myDemands';

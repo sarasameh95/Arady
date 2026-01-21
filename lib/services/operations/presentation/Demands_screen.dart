@@ -1,5 +1,8 @@
+import 'package:ashghal/core/dio_service.dart';
 import 'package:ashghal/services/operations/data/demands_data_source.dart';
 import 'package:ashghal/services/operations/data/demands_model.dart';
+import 'package:ashghal/services/operations/domain/demands_entity.dart';
+import 'package:ashghal/services/operations/presentation/widgets/demandsCard.dart';
 import 'package:flutter/material.dart';
 import 'package:ashghal/core/theme/app_colors.dart';
 
@@ -9,11 +12,60 @@ class DemandsScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _DemandsScreenState();
 }
+late Future<List<Demand>> futureDemands;
+
+
+Future<List<Demand>> loadDemands() async {
+  print('loadDemands');
+  final demands = await DemandService().getUserDemands();
+  print(demands);
+  return sortDemandsByLatest(demands);
+}
+List<Demand> sortDemandsByLatest(List<Demand> demands) {
+  demands.sort(
+        (a, b) => DateTime.parse(b.demandDate)
+        .compareTo(DateTime.parse(a.demandDate)),
+  );
+  return demands;
+}
 
 class _DemandsScreenState extends State<DemandsScreen> {
+
   @override
   Widget build(BuildContext context) {
+    futureDemands = loadDemands();
     return Scaffold(
+      body: FutureBuilder<List<Demand>>(
+        future: futureDemands,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
+          }
+
+          final demands = snapshot.data!;
+
+          if (demands.isEmpty) {
+            return const Center(child: Text('No demands found'));
+          }
+
+          return ListView.separated(
+            padding: const EdgeInsets.all(16),
+            itemCount: demands.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final demand = demands[index];
+
+              return DemandCard(demand: demand);
+            },
+          );
+        },
+      ),
+    );
+    /*return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
       body: SafeArea(
         child: Padding(
@@ -60,12 +112,13 @@ class _DemandsScreenState extends State<DemandsScreen> {
                     itemCount: 6,
                     separatorBuilder: (_, __) => const Divider(height: 1),
                     itemBuilder: (context, index) {
-                      return _operationItem(
-                        time: index == 0 ? '2d ago' : '3d ago',
-                        title: 'New Product View',
-                        subtitle: 'Sally Mandrus, viewed your product',
-                        isActive: index == 0,
-                      );
+                      return
+                      //   _operationItem(
+                      //   time: index == 0 ? '2d ago' : '3d ago',
+                      //   title: 'New Product View',
+                      //   subtitle: 'Sally Mandrus, viewed your product',
+                      //   isActive: index == 0,
+                      // );
                     },
                   ),
                 ),
@@ -74,8 +127,9 @@ class _DemandsScreenState extends State<DemandsScreen> {
           ),
         ),
       ),
-    );
+    );*/
   }
+
 
   /// Filter Button Widget
    Widget _filterButton(String text, {bool isActive = false}) {
@@ -104,62 +158,62 @@ class _DemandsScreenState extends State<DemandsScreen> {
     );
   }
 
-  /// Operation Item Widget
-   Widget _operationItem({
-    required String time,
-    required String title,
-    required String subtitle,
-    bool isActive = false,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          /// Text Content
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          /// Time
-          Text(
-            time,
-            style: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: 12,
-            ),
-          ),
-
-          const SizedBox(width: 8),
-
-          /// Right Indicator
-          Container(
-            width: 4,
-            height: 40,
-            decoration: BoxDecoration(
-              color: isActive ? AppColors.primary: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // /// Operation Item Widget
+  //  Widget _operationItem({
+  //   required String time,
+  //   required String title,
+  //   required String subtitle,
+  //   bool isActive = false,
+  // }) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  //     child: Row(
+  //       children: [
+  //         /// Text Content
+  //         Expanded(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(
+  //                 title,
+  //                 style: const TextStyle(
+  //                   fontWeight: FontWeight.bold,
+  //                 ),
+  //               ),
+  //               const SizedBox(height: 4),
+  //               Text(
+  //                 subtitle,
+  //                 style: TextStyle(
+  //                   color: Colors.grey.shade600,
+  //                   fontSize: 13,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //
+  //         /// Time
+  //         Text(
+  //           time,
+  //           style: TextStyle(
+  //             color: Colors.grey.shade500,
+  //             fontSize: 12,
+  //           ),
+  //         ),
+  //
+  //         const SizedBox(width: 8),
+  //
+  //         /// Right Indicator
+  //         Container(
+  //           width: 4,
+  //           height: 40,
+  //           decoration: BoxDecoration(
+  //             color: isActive ? AppColors.primary: Colors.grey.shade300,
+  //             borderRadius: BorderRadius.circular(10),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
