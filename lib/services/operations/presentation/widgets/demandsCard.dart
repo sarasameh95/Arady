@@ -21,7 +21,7 @@ class DemandCard extends StatelessWidget {
           textDirection: TextDirection.rtl,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(' ${demand.demandName} : المتقدم بالطلب  '
+            Text('${demand.demandName} : المتقدم بالطلب'
               ,
               style: const TextStyle(
                 fontSize: 20,
@@ -40,13 +40,14 @@ class DemandCard extends StatelessWidget {
               ),),
             Text('الحالة الحالية: ${demand.statusName}',
               style: const TextStyle(
+                color: AppColors.primary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),),
             const SizedBox(height: 8),
             Text(
               'بتاريخ : ${formatDate(demand.demandDate)}',
-              style: const TextStyle(color: AppColors.primary,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,),
             ),

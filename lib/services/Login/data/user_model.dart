@@ -5,26 +5,30 @@ class UserModel extends User {
   const UserModel(
       {required super.fullName,
         required super.userName,
-        required super.password,
-        required super.natId,
+      //  required super.password,
+      //  required super.natId,
         required super.mobileNo,
-        required super.whatsNo,
+      //  required super.whatsNo,
         required super.email,
+        required super.id
         });
 
   factory UserModel.fromMap(Map<String, dynamic> json) {
-    try{ return UserModel(
-        fullName: json['fullName'],
+    try{
+      print('from model ${json['fullname']}');
+      return UserModel(
+        fullName: json['fullname'],
         userName: json['username'],
-        password: json['password'],
-        natId: json['natId'],
-        mobileNo: json['mobileNo'],
-        whatsNo: json['whatsNo'],
+      //  password: json['password'],
+       // natId: json['natId'],
+        mobileNo: json['mobileNumber'],
+       // whatsNo: json['whatsNo'],
         email: json['email'],
+        id: json['id']
       );
     }
     catch(e){
-      //print(e);
+      print(e);
       throw ClientException('ww');
     }
   }

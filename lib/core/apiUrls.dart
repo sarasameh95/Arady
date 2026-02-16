@@ -1,8 +1,10 @@
-const String _testServer = 'http://10.150.144.177:8080/api';
-const String _localServer = 'http://10.150.144.171:8080/api';
+const String _testServer = 'http://10.150.144.155:8080/api';
+const String _localServer = 'http://10.150.144.152:8080/api';
+const String _publicServer = 'http://10.250.1.155:8080/sca-lands-system/api';
 class ApiUrls{
-  static const String login = '$_localServer/auth/login';
-  static const String getDemands = '$_localServer/demands/myDemands';
+  static const String login = '$_publicServer/auth/login';
+  static const String register = '$_publicServer/auth/register';
+  static const String getDemands = '$_publicServer/demands/myDemands';
 
 
 }

@@ -1,6 +1,12 @@
+import 'package:ashghal/core/dio_service.dart';
+import 'package:ashghal/core/token_storage.dart';
+import 'package:ashghal/services/Login/cubit/user_cubit.dart';
 import 'package:ashghal/services/Login/domain/user_entity.dart';
+import 'package:ashghal/services/Login/presentation/screen/login_form.dart';
 import 'package:flutter/material.dart';
 import 'package:ashghal/core/theme/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -9,13 +15,14 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Temporary mock data
     const user = User(
-
-
+      id: 1,
       fullName: 'Mohamed Wael',
       email: 'mo.wael@gmail.com',
       mobileNo: '+20 100 123 4567',
-      natId: 1234567891212,
-      userName: 'Mohamed Wael ', password: '', whatsNo: '+20 100 123 4567',
+      //natId: 1234567891212,
+      userName: 'Mohamed Wael ',
+      //password: '',
+      //whatsNo: '+20 100 123 4567',
     );
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
@@ -71,11 +78,42 @@ class ProfileScreen extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  ElevatedButton(
-                    onPressed: () {
-                      // TODO: navigate to edit profile
-                    },
-                    child: const Text('Edit Profile'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("قريبا سوف يتم فتح إمكانية تعديل بياناتك ", textDirection: TextDirection.rtl,),
+                            ),
+                          );
+                        },
+                        child: const Text('تعديل المستخدم'),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                        ),
+                        onPressed: () async {
+                          final TokenStorage tokenStorage = TokenStorage();
+                          await tokenStorage.deleteToken();
+                          Navigator.of(context).pushReplacement(
+                            PageRouteBuilder(
+                              transitionDuration: const Duration(milliseconds: 500),
+                              pageBuilder: (_, __, ___) =>
+                                  BlocProvider(
+                                    create: (_) => LoginCubit(AuthService(), tokenStorage),
+                                    child: LoginForm(),
+                                  ),
+                              transitionsBuilder: (_, anim, __, child) =>
+                                  FadeTransition(opacity: anim, child: child),
+                            ),
+                          );
+                        },
+                        child: const Text('تسجيل خروج',style: TextStyle(color:AppColors.offWhite ),),
+                      ),
+                    ],
                   ),
                 ],
               ),

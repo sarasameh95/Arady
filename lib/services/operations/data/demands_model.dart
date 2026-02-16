@@ -23,21 +23,21 @@ class DemandsModel extends Demand {
 
   factory DemandsModel.fromMap(Map<String, dynamic> json) {
     try{ return DemandsModel(
-        demandName: json['name'],
-        demandDate: json['demandDate'],
-        address: json['address'],
-        id: json['id'],
-        tel: json['tel'],
-        email: json['email'],
-        whatsNumber: json['whatsNumber'],
-        areaName: json['areaName'],
-        demandTypeName: json['demandTypeName'],
-        marafeqName: json['marafeqName'],
-        statusName: json['statusName'],
-        areaId: json['areaId'],
-        demandTypeId: json['demandTypeId'],
-        marafeqId: json['marafeqId'],
-        statusId: json['statusId'],
+        demandName: json['name'],//
+        demandDate: json['demandDate'],//
+        address: json['address'],//
+        id: json['id'],//
+        tel: json['tel'],//
+        email: json['email'],//
+        whatsNumber: json['whatsNumber'],//
+        areaName: json['areaName'],//
+        demandTypeName: json['demandTypeName'],//
+        marafeqName: json['marafeqName'],//
+        statusName: json['statusName'],//
+        areaId: json['areaId'],//
+        demandTypeId: json['demandTypeId'],//
+        marafeqId: json['marafeqId'],//
+        statusId: json['statusId'],//
 
       /*  "id": 0,
   "demandDate": "2025-12-25T09:14:50.544Z",

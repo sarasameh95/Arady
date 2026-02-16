@@ -1,35 +1,103 @@
 
-
 import 'dart:convert' as convert;
 
 import 'package:ashghal/core/apiUrls.dart';
+import 'package:ashghal/core/token_storage.dart';
+import 'package:ashghal/services/Login/data/user_model.dart';
+import 'package:ashghal/services/Login/domain/register_request.dart';
+import 'package:ashghal/services/Login/domain/request.dart';
 import 'package:ashghal/services/operations/data/demands_model.dart';
-import 'package:ashghal/services/operations/domain/demands_entity.dart';
 import 'package:dio/dio.dart';
 
-
-class DemandService {
-
-  final Dio dio = Dio(
-  //  String? token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKV1QgVE9LRU4iLCJVU0VSTkFNRSI6Im1vd2FlbCIsIkFVVEhPUklUSUVTIjoiVVNFUiIsImlhdCI6MTc2ODk4NDkzNSwiZXhwIjoxNzY5MDEzNzM1fQ.hcHEwLbLVmBWklopn3BdR6UW_t9eCWS7h0Gq4fqUEf-1y3NPUKvah4KMIi-X0GVuEK1Q9nwxBsgqbgVrea0Isg';
+class AuthService {
+  final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://10.150.144.171:8080',
       headers: {
-        "Accept": "application/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKV1QgVE9LRU4iLCJVU0VSTkFNRSI6Im1vd2FlbCIsIkFVVEhPUklUSUVTIjoiVVNFUiIsImlhdCI6MTc2ODk4NDkzNSwiZXhwIjoxNzY5MDEzNzM1fQ.hcHEwLbLVmBWklopn3BdR6UW_t9eCWS7h0Gq4fqUEf-1y3NPUKvah4KMIi-X0GVuEK1Q9nwxBsgqbgVrea0Isg",
-
+        ApiStrings.accept: ApiStrings.json,
+        ApiStrings.contentTypeKey: ApiStrings.json,
       },
-      // Android emulator
-      // baseUrl: 'http://127.0.0.1:3000', // physical device
     ),
   );
 
+  Future<LoginResponse> login(LoginRequest request) async {
+    final response = await _dio.post(
+      ApiUrls.login,
+      data: request.toJson(),
+    );
+   // print('from post ${response.data['data']['user']}');
+   // UserModel user = UserModel.fromMap(response.data['data']['user']);
+   // print(user);
+    return LoginResponse.fromJson(response.data['data']);
+  }
+  Future<RegisterResponse> register(RegisterRequest request) async {
+    try {
+      print(request.toJson().toString());
+
+      final response = await _dio.post(
+        ApiUrls.register,
+        data: request.toJson(),
+      );
+
+      print('from post ${response.data}');
+
+      return RegisterResponse.fromMap(response.data['data']);
+    } on DioException catch (e) {
+      print('STATUS CODE: ${e.response?.statusCode}');
+      print('ERROR BODY: ${e.response?.data}');
+
+      throw Exception(
+          e.response?.data['data'] ?? 'Registration failed');
+    }
+  }
+  //   print(request.toJson().toString());
+  //   final response = await _dio.post(
+  //     ApiUrls.register,
+  //     data: request.toJson(),
+  //   );
+  //   print('from post ${response}');
+  //   return RegisterResponse.fromMap(response.data['data']);
+  // }
+}
+
+class DemandService {
+  final TokenStorage tokenStorage;
+  final Dio _dio = Dio();
+  DemandService(this.tokenStorage ){
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final token = await tokenStorage.getToken();
+
+          if (token != null) {
+            options.headers[ApiStrings.authorization] = 'Bearer $token';
+            options.headers[ApiStrings.accept] = ApiStrings.json;
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+  }
+  Dio get dio => _dio;
+
+    // BaseOptions(
+    //   headers: {
+    //     ApiStrings.accept: ApiStrings.json,
+    //     ApiStrings.authorization : "Bearer $tokenStorage",
+    //   },
+    //   // Android emulator
+    //   // baseUrl: 'http://127.0.0.1:3000', // physical device
+    // ),
+
+
+
+
   Future<List<DemandsModel>> getUserDemands() async {
     final response = await dio.get(ApiUrls.getDemands);
-    //print(response.data);
+    print('response ${response.data['data']}');
 
-    final List list = response.data;
-    print(list);
+    final List list = response.data['data'];
+   // print('list ${list}');
+
     return (list)
         .map((e) => DemandsModel.fromMap(e))
         .toList();

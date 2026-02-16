@@ -1,11 +1,14 @@
 import 'package:ashghal/core/theme/app_colors.dart';
 import 'package:ashghal/services/Login/presentation/widgets/appBar_title.dart';
+import 'package:ashghal/services/operations/cubit/demands_cubit.dart';
 import 'package:ashghal/services/operations/presentation/Demands_screen.dart';
 import 'package:ashghal/services/Login/presentation/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ashghal/core/utils/app_strings.dart';
  import 'widgets/buildCardWidget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 
 class MyHomePage extends StatefulWidget {
@@ -18,11 +21,32 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
-  late final List<Widget> _screens = [
-    HomeBody(username: widget.userName,),
-    const DemandsScreen(),
-    const ProfileScreen(),
-  ];
+  late final List<Widget> _screens;
+  void changeTab(int index) {
+    print(index);
+    setState(() {
+      _currentIndex = index;
+    });
+
+  }
+  @override
+  void initState() {
+    super.initState();
+
+
+    _screens = [
+      HomeBody(
+        username: widget.userName,
+        onGoToTalabat: () => changeTab(1),
+      ),
+      BlocProvider(
+        create: (_) => DemandsCubit()..getDemandsFromApi(),
+        child:  DemandsScreen(),
+      ),
+      const ProfileScreen(),
+    ];
+  }
+
 @override
   Widget build(BuildContext context) {
 
@@ -93,26 +117,53 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HomeBody extends StatelessWidget {
-  const HomeBody({super.key,required this.username});
+   HomeBody({super.key,required this.username, required this.onGoToTalabat});
   final String username;
+  final VoidCallback  onGoToTalabat;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              Buildcardwidget(
-                imagePath: 'assets/deals.png',
-                title: 'الطلبات المقدمة',
+              InkWell(
+                onTap: (){ onGoToTalabat();
+                  print('outside');
+
+                },
+                  // Navigator.of(context).pushReplacement(
+                  //   PageRouteBuilder(
+                  //     pageBuilder: (_, __, ___) =>  BlocProvider(
+                  //       create: (_) => DemandsCubit()..getDemandsFromApi(),
+                  //       child: const DemandsScreen(),
+                  //     ),
+                  //     transitionsBuilder: (_, anim, __, child) =>
+                  //         FadeTransition(opacity: anim, child: child),
+                  //   ),
+                  // );
+
+                child: Buildcardwidget(
+                  imagePath: 'assets/deals.png',
+                  title: 'الطلبات المقدمة',
+                ),
               ),
               const SizedBox(height: 20),
-              Buildcardwidget(
-                imagePath: 'assets/money.jpg',
-                title: 'المعاملات المالية',
+              InkWell(
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("قريبا سوف يتم فتح الدفع الالكترونى", textDirection: TextDirection.rtl,),
+                    ),
+                  );
+
+                },
+                child: Buildcardwidget(
+                  imagePath: 'assets/money.jpg',
+                  title: 'المعاملات المالية',
+                ),
               ),
             ],
           ),

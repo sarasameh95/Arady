@@ -59,6 +59,7 @@ import 'package:flutter/material.dart';
 abstract final class AppTheme {
   // The defined light theme.
   static ThemeData light = FlexThemeData.light(
+    fontFamily: 'noto',
     scheme: FlexScheme.money,
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
@@ -70,6 +71,7 @@ abstract final class AppTheme {
       navigationRailUseIndicator: true,
       navigationRailLabelType: NavigationRailLabelType.all,
     ),
+    //textTheme: TextTheme(titleLarge: TextStyle(fontFamily: )),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
   );
