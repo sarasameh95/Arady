@@ -1,4 +1,5 @@
 import 'package:ashghal/core/theme/app_colors.dart';
+import 'package:ashghal/services/Login/data/user_model.dart';
 import 'package:ashghal/services/Login/presentation/widgets/appBar_title.dart';
 import 'package:ashghal/services/operations/cubit/demands_cubit.dart';
 import 'package:ashghal/services/operations/presentation/Demands_screen.dart';
@@ -12,8 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key,required this.userName});
-  final String userName ;
+  const MyHomePage({super.key,required this.userData});
+  final UserModel userData ;
+
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -36,14 +38,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _screens = [
       HomeBody(
-        username: widget.userName,
+        username: widget.userData.userName,
         onGoToTalabat: () => changeTab(1),
       ),
       BlocProvider(
         create: (_) => DemandsCubit()..getDemandsFromApi(),
         child:  DemandsScreen(),
       ),
-      const ProfileScreen(),
+       ProfileScreen(userData:  widget.userData),
     ];
   }
 
@@ -64,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: SvgPicture.asset('assets/cabin.svg'),
                   //child: Icon(Icons.person_outline_outlined)
               ),
-              Text('${widget.userName} ' )
+              Text('${widget.userData.userName} ' )
             ],
           ),
         ],

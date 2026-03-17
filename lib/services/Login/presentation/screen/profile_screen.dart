@@ -1,6 +1,7 @@
 import 'package:ashghal/core/dio_service.dart';
 import 'package:ashghal/core/token_storage.dart';
 import 'package:ashghal/services/Login/cubit/user_cubit.dart';
+import 'package:ashghal/services/Login/data/user_model.dart';
 import 'package:ashghal/services/Login/domain/user_entity.dart';
 import 'package:ashghal/services/Login/presentation/screen/login_form.dart';
 import 'package:flutter/material.dart';
@@ -8,22 +9,28 @@ import 'package:ashghal/core/theme/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key,required this.userData });
+  final UserModel userData ;
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     // Temporary mock data
-    const user = User(
-      id: 1,
-      fullName: 'Mohamed Wael',
-      email: 'mo.wael@gmail.com',
-      mobileNo: '+20 100 123 4567',
-      //natId: 1234567891212,
-      userName: 'Mohamed Wael ',
-      //password: '',
-      //whatsNo: '+20 100 123 4567',
-    );
+    // const user = User(
+    //   id: 1,
+    //   fullName: 'Mohamed Wael',
+    //   email: 'mo.wael@gmail.com',
+    //   mobileNo: '+20 100 123 4567',
+    //   //natId: 1234567891212,
+    //   userName: 'Mohamed Wael ',
+    //   //password: '',
+    //   //whatsNo: '+20 100 123 4567',
+    // );
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
       body: SafeArea(
@@ -48,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   Text(
-                    user.fullName,
+                    widget.userData.fullName,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -58,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 4),
 
                   Text(
-                    user.email,
+                    widget.userData.email,
                     style: const TextStyle(color: Colors.grey),
                   ),
 
@@ -67,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                   ProfileItem(
                     icon: Icons.phone,
                     title: 'Phone',
-                    value: user.mobileNo,
+                    value: widget.userData.mobileNo,
                   ),
 
                   // ProfileItem(
@@ -123,8 +130,6 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-  
-
 }
 class ProfileItem extends StatelessWidget {
   final IconData icon;

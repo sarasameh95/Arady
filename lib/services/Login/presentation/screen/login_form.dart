@@ -35,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
           print('TOKEN: ${state.token}');
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) =>  MyHomePage(userName: userNameController.text, )),
+            MaterialPageRoute(builder: (context) =>  MyHomePage(userData: state.userData, )),
           );
           // save token & navigate
         }
@@ -96,6 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                                   Row(
                                     textDirection: TextDirection.rtl,
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       BlocBuilder<LoginCubit, LoginState>(
                                   builder: (context, state) {
@@ -129,9 +130,8 @@ class _LoginFormState extends State<LoginForm> {
                                       );})
                                     ,
                                       OutlinedButton(onPressed: (){
-                                        Navigator.of(context).pushReplacement(
+                                        Navigator.of(context).push(
                                           PageRouteBuilder(
-                                            transitionDuration: const Duration(milliseconds: 500),
                                             pageBuilder: (_, __, ___) =>
                                                 BlocProvider(
                                                   create: (_) => RegisterCubit(AuthService()),
@@ -156,7 +156,7 @@ class _LoginFormState extends State<LoginForm> {
                             padding: const EdgeInsets.only(bottom: 15),
                             child: Text(
                               'تم التطوير بواسطة قسم البرمجيات-إدارة الاتصالات',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 10),
                             ),
                           ),
                         ],

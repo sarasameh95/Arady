@@ -3,36 +3,36 @@ import 'package:http/http.dart';
 import 'package:equatable/equatable.dart';
 
 class UserRegister extends Equatable {
-  final String userName;
+  //final String userName;
   final String message;
-  final int id;
+  final int status;
 
   const UserRegister(
       {required this.message,
-        required this.userName,
-        required this.id});
+      //  required this.userName,
+        required this.status});
 
   @override
   List<Object?> get props => [
     message,
-    userName,
-    id
+   // userName,
+    status
   ];
 }
 
 class UserRegisterModel extends UserRegister {
   const UserRegisterModel(
       { required super.message,
-        required super.userName,
-        required super.id
+       // required super.userName,
+        required super.status
         });
 
   factory UserRegisterModel.fromMap(Map<String, dynamic> json) {
     try{
       return UserRegisterModel(
         message: json['message'],
-        userName: json['username'],
-        id: json['userId']
+      //  userName: json['username'],
+          status: json['status']
       );
     }
     catch(e){

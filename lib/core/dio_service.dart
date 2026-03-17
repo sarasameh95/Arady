@@ -27,6 +27,10 @@ class AuthService {
    // print('from post ${response.data['data']['user']}');
    // UserModel user = UserModel.fromMap(response.data['data']['user']);
    // print(user);
+    if(response.data['data'] == null){
+      return LoginResponse.fromJson(response.data['message']);
+
+    }
     return LoginResponse.fromJson(response.data['data']);
   }
   Future<RegisterResponse> register(RegisterRequest request) async {
@@ -40,13 +44,14 @@ class AuthService {
 
       print('from post ${response.data}');
 
-      return RegisterResponse.fromMap(response.data['data']);
+    //  return RegisterResponse.fromMap(response.data['data']);
+      return RegisterResponse.fromMap(response.data);
     } on DioException catch (e) {
       print('STATUS CODE: ${e.response?.statusCode}');
       print('ERROR BODY: ${e.response?.data}');
 
       throw Exception(
-          e.response?.data['data'] ?? 'Registration failed');
+          e.response?.data['data'] ??  e.response?.data['message']);
     }
   }
   //   print(request.toJson().toString());

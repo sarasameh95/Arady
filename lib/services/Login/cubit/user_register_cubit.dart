@@ -23,6 +23,9 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(RegisterFailure('من فضلك ادخل الحقول المطلوبة'));
       return;
     }
+    // else if (password.length < 8) {
+    //
+    // }
     emit(RegisterLoading());
     try {
 

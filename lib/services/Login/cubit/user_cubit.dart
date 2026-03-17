@@ -22,24 +22,24 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginLoading());
 
     try {
-      print('success');
+
       final response = await authService.login(
         LoginRequest(username: username, password: password),
       );
+      print('success');
       await tokenStorage.saveToken(response.token);
-      emit(LoginSuccess(response.token));
+      emit(LoginSuccess(response.token, response.userData));
     } on DioException catch (e) {
-      var message =
-          e.response?.data['message'] ?? 'خطأ, تأكد من صحة اسم المستخدم والرقم السرى';
+      var message = //'خطأ, تأكد من صحة اسم المستخدم والرقم السرى'
+          e.response?.data['message'] ?? ' حدث خطأ اثناء الاتصال بالسيرفير حاول مرة اخرى';
 
-      if(message=='Invalid username'){
-        message= 'خطأ, تأكد من صحة اسم المستخدم والرقم السرى';
-      }
+      // if(message=='Invalid username'){
+      //   message= 'خطأ, تأكد من صحة اسم المستخدم والرقم السرى';
+      // }
       print(message);
       emit(LoginFailure(message));
     } catch (e) {
-      print('failed');
-
+      print('failed $e');
       emit(LoginFailure('حدث خطأ ما تاكد من اتصالك بالشبكة'));
     }
   }

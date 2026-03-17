@@ -21,7 +21,9 @@ class LoginResponse {
   final String token;
   final UserModel userData;
 
-  LoginResponse({required this.token, required this.userData});
+  LoginResponse({required this.token,
+    required this.userData
+  });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     print('from json${json['token']}');
