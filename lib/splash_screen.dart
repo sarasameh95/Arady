@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
                   'إدارة الأشغال بهيئة قناة السويس ',
                   style: TextStyle(
                     color: Colors.white.withValues(alpha: 0.85),
-                    fontSize: 28,
+                    fontSize: 24,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

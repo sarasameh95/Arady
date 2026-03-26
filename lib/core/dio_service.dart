@@ -20,19 +20,27 @@ class AuthService {
   );
 
   Future<LoginResponse> login(LoginRequest request) async {
-    final response = await _dio.post(
-      ApiUrls.login,
-      data: request.toJson(),
-    );
-   // print('from post ${response.data['data']['user']}');
-   // UserModel user = UserModel.fromMap(response.data['data']['user']);
-   // print(user);
-    if(response.data['data'] == null){
-      return LoginResponse.fromJson(response.data['message']);
+    print({'request': request.toJson().toString()});
+    try {
+      final response = await _dio.post(
+        ApiUrls.login,
+        data: request.toJson(),
+      );
+      print('response ${response}');
 
+      if (response.data['data'] == null) {
+        return LoginResponse.fromJson(response.data['message']);
+      }
+      return LoginResponse.fromJson(response.data['data']);
     }
-    return LoginResponse.fromJson(response.data['data']);
+    on DioException catch (e) {
+      print('STATUS CODE: ${e.response?.statusCode}');
+      print('ERROR BODY: ${e.response?.data}');
+
+      throw Exception(
+          e.response?.data['data'] ??  e.response?.data['message']);}
   }
+
   Future<RegisterResponse> register(RegisterRequest request) async {
     try {
       print(request.toJson().toString());

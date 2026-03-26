@@ -125,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                                         },
                                         child: Text(
                                             AppStrings.login,
-                                          style: TextStyle(color: Colors.white, fontSize: 18),
+                                          style: TextStyle(color: Colors.white, fontSize: 14),
                                         ),
                                       );})
                                     ,
@@ -144,7 +144,7 @@ class _LoginFormState extends State<LoginForm> {
                                       },
                                        // style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 20),
                                        // ),
-                                        child: Text(AppWords.createAccount))
+                                        child: Text(AppWords.createAccount,style: TextStyle( fontSize: 14),))
                                     ],
                                   ),
 

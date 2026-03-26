@@ -8,7 +8,7 @@ class AppStrings {
 }
 class AppWords{
   static String addBtnToolTib = 'تقديم طلب جديد';
-  static String createAccount = ' إنشاء حساب جديد';
+  static String createAccount = ' إنشاء حساب';
   static String saveBtn = 'حفظ';
 }
 class Error{
