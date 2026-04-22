@@ -65,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 4),
 
                   Text(
-                    widget.userData.email,
+                    widget.userData.email       ,
                     style: const TextStyle(color: Colors.grey),
                   ),
 
