@@ -3,21 +3,21 @@ import 'package:http/http.dart';
 
 class DemandsModel extends Demand {
   const DemandsModel(
-      {required super.demandName,
+      { super.demandName,
         required super.demandDate,
-        required super.address,
+         super.address,
         required super.id,
         required super.tel,
-        required super.email,
-        required super.whatsNumber,
-        required super.areaName,
-        required super.demandTypeName,
-        required super.marafeqName,
-        required super.statusName,
-        required super.areaId,
-        required super.demandTypeId,
-        required super.marafeqId,
-        required super.statusId,
+         super.email,
+         super.whatsNumber,
+         super.areaName,
+         super.demandTypeName,
+         super.marafeqName,
+         super.statusName,
+         super.areaId,
+         super.demandTypeId,
+         super.marafeqId,
+         super.statusId,
 
       });
 
@@ -28,15 +28,15 @@ class DemandsModel extends Demand {
         address: json['address'],//
         id: json['id'],//
         tel: json['tel'],//
-        email: json['email'],//
+        email: json['email']as String?,//
         whatsNumber: json['whatsNumber'],//
         areaName: json['areaName'],//
         demandTypeName: json['demandTypeName'],//
-        marafeqName: json['marafeqName'],//
+        marafeqName: json['marafeqName']as String?,//
         statusName: json['statusName'],//
         areaId: json['areaId'],//
         demandTypeId: json['demandTypeId'],//
-        marafeqId: json['marafeqId'],//
+        marafeqId: json['marafeqId']as int?,//
         statusId: json['statusId'],//
 
       /*  "id": 0,
@@ -58,8 +58,8 @@ class DemandsModel extends Demand {
     }
     catch(e){
       //print(e);
-      print('from model $json');
-      print('from model $e');
+      print('from demands model $json');
+      print('from demands model $e');
       throw ClientException('ww');
     }
   }
