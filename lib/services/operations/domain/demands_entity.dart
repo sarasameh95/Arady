@@ -2,38 +2,38 @@ import 'package:equatable/equatable.dart';
 
 class Demand extends Equatable {
 
-  final String demandName;
+  final String? demandName;
   final String demandDate;
-  final String address;
+  final String? address;
   final int id;
   final int tel;
-  final String email;
-  final int whatsNumber;
-  final String areaName;
-  final String demandTypeName;
-  final String marafeqName;
-  final String statusName;
-  final int areaId;
-  final int demandTypeId;
-  final int marafeqId;
-  final int statusId;
+  final String? email;
+  final int? whatsNumber;
+  final String? areaName;
+  final String? demandTypeName;
+  final String? marafeqName;
+  final String? statusName;
+  final int? areaId;
+  final int? demandTypeId;
+  final int? marafeqId;
+  final int? statusId;
 
   const Demand(
-      {required this.demandName,
+      { this.demandName,
         required this.demandDate,
-        required this.address,
+         this.address,
         required this.id,
         required this.tel,
-        required this.email,
-        required this.whatsNumber,
-        required this.areaName,
-        required this.demandTypeName,
-        required this.marafeqName,
-        required this.statusName,
-        required this.areaId,
-        required this.demandTypeId,
-        required this.marafeqId,
-        required this.statusId,
+         this.email,
+         this.whatsNumber,
+         this.areaName,
+         this.demandTypeName,
+         this.marafeqName,
+         this.statusName,
+         this.areaId,
+         this.demandTypeId,
+         this.marafeqId,
+         this.statusId,
 
 
       });
