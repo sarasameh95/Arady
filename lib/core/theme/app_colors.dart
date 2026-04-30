@@ -6,6 +6,8 @@ class AppColors {
   static const Color tertiary =  Color(0xffF7DF9A);
   static const Color primaryBackground  =  Color(0xffF1F4F8);
   static const Color grey =  Color(0xff9d9ea3);
+  static const Color darkGrey =  Color(0xFF2A2A2A);
+
   static const Color lightGrey = Color(0xffE7ECF0);
   static const Color offWhite = Color(0xffFAF9F6);
   static const Color textColor= Color(0xff14181B);
