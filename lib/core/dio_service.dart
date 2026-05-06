@@ -7,6 +7,7 @@ import 'package:ashghal/services/Login/data/user_model.dart';
 import 'package:ashghal/services/Login/domain/register_request.dart';
 import 'package:ashghal/services/Login/domain/request.dart';
 import 'package:ashghal/services/operations/data/demands_model.dart';
+import 'package:ashghal/services/operations/data/stage_model.dart';
 import 'package:dio/dio.dart';
 
 class AuthService {
@@ -75,7 +76,8 @@ class AuthService {
 class DemandService {
   final TokenStorage tokenStorage;
   final Dio _dio = Dio();
-  DemandService(this.tokenStorage ){
+
+  DemandService(this.tokenStorage) {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -90,18 +92,17 @@ class DemandService {
       ),
     );
   }
+
   Dio get dio => _dio;
 
-    // BaseOptions(
-    //   headers: {
-    //     ApiStrings.accept: ApiStrings.json,
-    //     ApiStrings.authorization : "Bearer $tokenStorage",
-    //   },
-    //   // Android emulator
-    //   // baseUrl: 'http://127.0.0.1:3000', // physical device
-    // ),
-
-
+  // BaseOptions(
+  //   headers: {
+  //     ApiStrings.accept: ApiStrings.json,
+  //     ApiStrings.authorization : "Bearer $tokenStorage",
+  //   },
+  //   // Android emulator
+  //   // baseUrl: 'http://127.0.0.1:3000', // physical device
+  // ),
 
 
   Future<List<DemandsModel>> getUserDemands() async {
@@ -114,36 +115,47 @@ class DemandService {
       return (list)
           .map((e) => DemandsModel.fromMap(e))
           .toList();
-    }on DioException catch (e) {
+    } on DioException catch (e) {
       print('STATUS CODE: ${e.response?.statusCode}');
       print('ERROR BODY: ${e.response?.data}');
 
       throw Exception(
-          e.response?.data['data'] ??  e.response?.data['message']);
+          e.response?.data['data'] ?? e.response?.data['message']);
     }
-
   }
-  //   if (response.statusCode == StatusCode.ok) {
-  //
-  //     //Map<String, dynamic> data = convert.jsonDecode(convert.utf8.decode(response.data)) as Map<String, dynamic>;
-  //
-  //     // List<DemandsModel> demands = (response.data as List)
-  //     //     .map((item) => DemandsModel.fromMap(item as Map<String, dynamic>))
-  //     //     .toList();
-  //     // print(demands.toString());
-  //     // return demands;
-  //   return response.data.map((e) => DemandsModel.fromMap(e)).toList();
-  // }
-  //   return [];
-  // }
 }
-  // static String get _baseUrl {
-  //   // Android Emulator
-  //   return 'http://10.150.144.171:8080';
-  //
-  //   // iOS Simulator
-  //   // return 'http://localhost:3000';
-  //
-  //   // Physical device (server on same device)
-  //   // return 'http://127.0.0.1:3000';
-  // }
+
+class StagesApiService {
+  final TokenStorage tokenStorage;
+  final Dio _dio = Dio();
+
+  StagesApiService(this.tokenStorage) {
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final token = await tokenStorage.getToken();
+
+          if (token != null) {
+            options.headers[ApiStrings.authorization] = 'Bearer $token';
+            options.headers[ApiStrings.accept] = ApiStrings.json;
+          }
+          return handler.next(options);
+        },
+      ),
+    );
+  }
+
+  Dio get dio => _dio;
+
+
+  Future<List<StageModel>> getStages(int demandId) async {
+    final response = await dio.get(
+      '${ApiUrls.getStages}/$demandId',
+    );
+
+    final List data = response.data['data'];
+    print('response $data');
+
+    return data.map((e) => StageModel.fromJson(e)).toList();
+  }
+}

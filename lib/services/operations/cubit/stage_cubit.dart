@@ -1,12 +1,54 @@
+import 'package:ashghal/core/dio_service.dart';
+import 'package:ashghal/core/token_storage.dart';
+import 'package:ashghal/services/operations/cubit/stage_cubit_state.dart';
+import 'package:ashghal/services/operations/data/stage_model.dart';
 import 'package:ashghal/services/operations/domain/stage_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+class StagesCubit extends Cubit<StagesState> {
 
+  StagesCubit() : super(StagesInitial());
+
+  Future<void> getStages(int demandId) async {
+    emit(StagesLoading());
+
+    try {
+      final stages = await StagesApiService(TokenStorage()).getStages(demandId);
+      print('stages $stages');
+      emit(StagesSuccess(stages));
+    } catch (e) {
+      print('stages error');
+      emit(StagesError(e.toString()));
+      print(e.toString());
+    }
+  }
+}
+/*
 class StagesCubit extends Cubit<List<Stage>> {
   StagesCubit() : super([]);
 
   void loadStages() async {
-    emit(_mockStages()); // replace with API later
+    // emit(_mockStages()); // replace with API later
+
+    Future<void> getStagesFromApi() async {
+
+      emit(StagesLoading());
+
+      try {
+        final List<StageModel> stages =
+        await DemandService(TokenStorage()).getUserDemands();
+
+        // // sort by latest
+        // demands.sort(
+        //       (a, b) => DateTime.parse(b.demandDate)
+        //       .compareTo(DateTime.parse(a.demandDate)),
+        // );
+
+        emit(DemandsSuccess(demands));
+      } catch (e) {
+        emit(DemandsError(e.toString()));
+      }
+    }
   }
 
   List<Stage> _mockStages() {
@@ -51,4 +93,4 @@ class StagesCubit extends Cubit<List<Stage>> {
       ),
     ];
   }
-}
+}*/

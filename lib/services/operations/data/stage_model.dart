@@ -12,14 +12,14 @@ class StageModel extends Stage {
 
   }) ;
 
-  factory StageModel.fromMap(Map<String, dynamic> json) {
+  factory StageModel.fromJson(Map<String, dynamic> json) {
     try{ return StageModel(
 
       historyId: json['historyId']as int?,
       demandId: json['demandId'],
       newStatus: json['newStatus'],
       oldStatus: json['oldStatus']as String?,
-      changedAt: json['changedAt']as DateTime?,
+      changedAt: json['changedAt']as String?,
       changedBy: json['changedBy']as String?,
       //status: json['status'],
 

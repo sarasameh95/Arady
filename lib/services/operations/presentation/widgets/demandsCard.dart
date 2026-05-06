@@ -19,7 +19,7 @@ class DemandCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute<void>(
-            builder: (context) => const StagesScreen(),
+            builder: (context) =>  StagesScreen(demandId: demand.id,),
           ),
         );
         //Navigator.pushNamed(context, '/demandDetails', arguments: demand.id);
@@ -48,7 +48,7 @@ class DemandCard extends StatelessWidget {
                   ),),
                   const SizedBox(height: 8),
       
-                  Text('المتقدم : ${demand.demandName}'
+                  Text('  ${demand.demandName} : المتقدم'
                     ,
                     style: const TextStyle(
                       fontSize: 16,

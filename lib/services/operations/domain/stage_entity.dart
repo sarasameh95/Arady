@@ -14,7 +14,7 @@ class Stage extends Equatable  {
   final int demandId;
   final String newStatus;
   final String? oldStatus;
-  final DateTime? changedAt;
+  final String? changedAt;
   final String? changedBy;
   final StageStatus? status;
   final IconData? stageIcon ;
