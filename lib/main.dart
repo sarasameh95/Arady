@@ -22,13 +22,13 @@ class MyApp extends StatelessWidget {
       title: AppStrings.appName,
       theme: AppTheme.light,
       home: const SplashScreen(),
-      builder: (context, child) {
-        return Listener(
-          behavior: HitTestBehavior.translucent,
-          onPointerDown: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-          child: child,
-        );
-      },
+      // builder: (context, child) {
+      //   return Listener(
+      //     behavior: HitTestBehavior.translucent,
+      //     onPointerDown: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+      //     child: child,
+      //   );
+      // },
     );
   }
 }

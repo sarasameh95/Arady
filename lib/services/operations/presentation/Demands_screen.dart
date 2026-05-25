@@ -4,7 +4,7 @@ import 'package:ashghal/services/operations/cubit/demands_cubit.dart';
 import 'package:ashghal/services/operations/cubit/demands_cubit_state.dart';
 import 'package:ashghal/services/operations/data/demands_model.dart';
 import 'package:ashghal/services/operations/domain/demands_entity.dart';
-import 'package:ashghal/services/operations/presentation/widgets/demandsCard.dart';
+import 'package:ashghal/services/operations/presentation/widgets/demands_card.dart';
 import 'package:flutter/material.dart';
 import 'package:ashghal/core/theme/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
