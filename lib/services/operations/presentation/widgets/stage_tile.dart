@@ -23,6 +23,7 @@ class StageTile extends StatelessWidget {
     return IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: TextDirection.rtl,
           children: [
 
           /// LEFT TIMELINE

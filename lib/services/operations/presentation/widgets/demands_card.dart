@@ -70,6 +70,8 @@ class DemandCard extends StatelessWidget {
                   const SizedBox(height: 10),
       
                   Text('الحالة الحالية : ${demand.statusName}',
+                    textAlign: TextAlign.right,
+                    textDirection: TextDirection.rtl,
                     style: const TextStyle(
                       color: AppColors.primary,
                       fontSize: 20,
