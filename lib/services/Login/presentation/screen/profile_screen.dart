@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     //   //whatsNo: '+20 100 123 4567',
     // );
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
+      backgroundColor: const Color(0xFFF7F8FA),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       BlocProvider(
         create: (_) => DemandsCubit()..getDemandsFromApi(),
-        child:  DemandsScreen(),
+        child:  DemandsScreen(userName: widget.userData.userName,),
       ),
        ProfileScreen(userData:  widget.userData),
     ];
@@ -54,21 +54,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.surfaceTint,
         centerTitle: true,
         title: AppbarTitle(),
         actions: [
-          Row(
-            textDirection: TextDirection.rtl,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                child: SvgPicture.asset('assets/cabin.svg'),
-                  //child: Icon(Icons.person_outline_outlined)
-              ),
-              Text('${widget.userData.userName} ' )
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: CircleAvatar(
+              child: SvgPicture.asset('assets/cabin.svg'),
+              //child: Icon(Icons.person_outline_outlined)
+            ),
           ),
+
         ],
       ),
       body:  IndexedStack(
@@ -131,6 +128,17 @@ class HomeBody extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
+              Row(
+                textDirection: TextDirection.rtl,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(' ${username} مرحبا ' ,
+                      style: TextStyle(color: AppColors.primary ,
+                        fontWeight: FontWeight.bold,
+                      fontSize: 20)),
+                ],
+              ),
+              const SizedBox(height: 20),
               InkWell(
                 onTap: (){ onGoToTalabat();
                   print('outside');

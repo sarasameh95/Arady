@@ -11,7 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DemandsScreen extends StatefulWidget {
-  const DemandsScreen({super.key});
+  const DemandsScreen({super.key, required this.userName});
+  final String? userName;
 
 
   @override
@@ -23,6 +24,7 @@ class _DemandsScreenState extends State<DemandsScreen> {
   Widget build(BuildContext context) {
    // futureDemands = loadDemands();
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F8FA),
       body: BlocBuilder<DemandsCubit, DemandsState>(
         builder: (context, state) {
           if (state is DemandsLoading) {
@@ -47,16 +49,32 @@ class _DemandsScreenState extends State<DemandsScreen> {
               onRefresh: () async {
                 context.read<DemandsCubit>().getDemandsFromApi(); // 🔥 call API again
               },
-              child: ListView.separated(
-                physics: const AlwaysScrollableScrollPhysics(), // important!
-                padding: const EdgeInsets.all(16),
-                itemCount: demands.length,
-                separatorBuilder: (_, __) =>
-                const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  final demand = demands[index];
-                  return DemandCard(demand: demand);
-                },
+              child: Column(
+                children: [
+                  Row(
+                    textDirection: TextDirection.rtl,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(' ${widget.userName} مرحبا ' ,
+                          style: TextStyle(color: AppColors.primary ,
+                            fontWeight: FontWeight.bold,
+                          fontSize: 16)),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      physics: const AlwaysScrollableScrollPhysics(), // important!
+                      padding: const EdgeInsets.all(16),
+                      itemCount: demands.length,
+                      separatorBuilder: (_, __) =>
+                      const SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        final demand = demands[index];
+                        return DemandCard(demand: demand);
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           }

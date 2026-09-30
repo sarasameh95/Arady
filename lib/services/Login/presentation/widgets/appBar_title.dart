@@ -20,7 +20,9 @@ class _AppbarTitleState extends State<AppbarTitle> {
           child: child,
         );
         },
-      child: Text(AppStrings.appName)
+      child: Text(AppStrings.appName,style: TextStyle(color: Theme.of(context).colorScheme.onInverseSurface ,
+        fontSize: 20,
+      fontWeight: FontWeight.bold,))
     );
   }
 }
